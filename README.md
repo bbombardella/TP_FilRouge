@@ -6,6 +6,7 @@
 Ce TP est constitué en plusieurs étapes :
 
 * [x]  Etape 1
+* [x]  Etape 2
 * [ ] Autres étapes à venir
 
 ## Par qui ?
