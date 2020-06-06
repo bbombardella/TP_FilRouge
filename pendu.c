@@ -16,14 +16,15 @@ int correspondanceLettreAlphaTab(char alphaTab[], char lettre) {
     return 0;
 }
 
-int correspondanceMotSecret(char motSecret[], char lettre, int indices[], int *nbIndices) {
-    int result=0;
-    for(int i=0;i<strlen(motSecret);i++) {
+int correspondanceMotSecret(char motSecret[], char lettre, int trouvees[], int *nbTrouvees) {
+    int result=0, i=0;
+    while(motSecret[i]!='\0') {
         if(motSecret[i]==lettre || motSecret[i]==lettre-'a'+'A') {
             result=1;                           /* pas de return car plusieurs occurences possible */
-            indices[*nbIndices]=i;
-            *nbIndices+=1;
+            trouvees[i]=1;
+            *nbTrouvees+=1;
         }
+        i++;
     }
     return(result);
 }
@@ -51,29 +52,22 @@ void afficheDecoration(int tailleMot) {
     printf("\n");
 }
 
-int presenceTab(int tab[], int comparant, int taille) {
-    for(int i=0;i<taille;i++) {
-        if(comparant==tab[i]) {
-            return 1;
-        }
-    }
-    return 0;
-}
-
-void afficheMotSecret(char mot[], int indices[], int *nbIndices) {
+void afficheMotSecret(char mot[], int trouvees[], int longueurMot) {
+    int i=0;
     printf("\nLe mot a decouvrir :");
-    afficheDecoration(strlen(mot));
+    afficheDecoration(longueurMot);
     printf("&  ");
-    for(int i=0;i<strlen(mot);i++) {
-        if(presenceTab(indices, i, *nbIndices)==1) {
+    while(mot[i]!='\0') {
+        if(trouvees[i]==1) {
             printf("%c ", mot[i]);
         }
         else {
             printf("* ");
         }
+        i++;
     }
     printf(" &");
-    afficheDecoration(strlen(mot));
+    afficheDecoration(longueurMot);
 }
 
 void indiceMotSecret() {
@@ -82,11 +76,11 @@ void indiceMotSecret() {
 
 int main() {
     char AlphaTab[26], lettreCorresp, motSecret[]="INTEGER";
-    int k=7, corresAlphaTab, corresMotSecret, indices[strlen(motSecret)], nbIndices=0;
+    int k=7, longueurMot=strlen(motSecret),corresAlphaTab, corresMotSecret, trouvees[longueurMot], nbTrouvees=0;
     remplitAlphaTab(AlphaTab);
     printf("----- Programme du pendu -----\n");
-    while(k>0 && nbIndices<strlen(motSecret)) {
-        afficheMotSecret(motSecret, indices, &nbIndices);
+    while(k>0 && nbTrouvees<longueurMot) {
+        afficheMotSecret(motSecret, trouvees, longueurMot);
         if(k==1) {
             printf("Il vous reste qu'une seule erreur possible\n");
             indiceMotSecret();
@@ -106,17 +100,18 @@ int main() {
             scanf("%c", &lettreCorresp);
             corresAlphaTab=correspondanceLettreAlphaTab(AlphaTab, lettreCorresp);
         }
-        corresMotSecret=correspondanceMotSecret(motSecret, lettreCorresp, indices, &nbIndices);
+        corresMotSecret=correspondanceMotSecret(motSecret, lettreCorresp, trouvees, &nbTrouvees);
         if(corresMotSecret==0) {
             k--;
         }
     }
-    afficheMotSecret(motSecret, indices, &nbIndices);
-    if (nbIndices==strlen(motSecret)) {
+    afficheMotSecret(motSecret, trouvees, longueurMot);
+    if (nbTrouvees==longueurMot) {
         printf("\n&&&&&&&&&&&&& GAGNE !!! &&&&&&&&&&&&&");
     }
     else {
         printf("\n&&&&&&&&&&&&& PERDU :( &&&&&&&&&&&&&");
     }
+
     return 0;
 }
