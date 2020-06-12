@@ -7,7 +7,9 @@ Ce TP est constitué en plusieurs étapes :
 
 * [x]  Etape 1
 * [x]  Etape 2
-* [ ] Autres étapes à venir
+* [x]  Etape 3
+
+**Ce TP est fini, il a été transmis à la professeure pour l'évaluation**
 
 ## Par qui ?
 Cette version du TP a été développé par **BOMBARDELLA Bastien** étudiant au département Informatique de l'IUT Lyon 1
